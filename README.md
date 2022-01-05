@@ -8,12 +8,12 @@ massmusicconvert is a Python3 script that recursively scans a directory in an ef
 
 ### done:
 
-scan for files
-select by file type
-check for ffmpeg on linux
+scan for files  
+select by file type  
+check for ffmpeg on linux  
 
 ### need to do:
 
-either convert alongside (easy), or parallel into a new directory (medium)
-actually pass commands to ffmpeg
-provide guided and command line interface
+either convert alongside (easy), or parallel into a new directory (medium)  
+actually pass commands to ffmpeg  
+provide guided and command line interface  
