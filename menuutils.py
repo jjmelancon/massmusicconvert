@@ -23,7 +23,6 @@ def integerSelection(lowestSelection, highestSelection):
                 raise ValueError
             # Return the selection if nothing bad happens, break the loop.
             return int(selection)
-            break
         # If there was a problem with values, give this error and repeat.
         except ValueError:
             print("\n!! I'm sorry, but that doesn't seem to be an option.\n!! Can I have a whole number within the above range?\n")

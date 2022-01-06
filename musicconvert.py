@@ -8,6 +8,7 @@ import os
 import sys
 
 import filetypes
+import menuutils
 
 
 def find_files(music_dir, extensions):
@@ -73,11 +74,25 @@ def find_ffmpeg():
 def run_ffmpeg(ffmpeg_dir, input_file, args, output_file):
     '''run ffmpeg'''
 
+def prompt_for_args():
+    '''prompt the user to input arguments'''
+    args = str("")
+    print("please enter the output file's bitrate in kbps. enter '0' for no bitrate change.")
+    while 1==1:
+        try:
+            bitrate = int(input("new bitrate:\n>>> "))
+            break
+        except ValueError:
+            print("sorry, that doesn't look like a whole number. try again please!")
+    if bitrate != 0:
+        args += str("-ab " + bitrate + "k ")
+    strip_art = str(input("strip music album art? (y/N)\n>>> "))
+    if strip_art.lower() == "y":
+        args += str("—vn ")
+    return args
 
-
-def main():
-    '''run other functions'''
-    ffmpeg_dir = find_ffmpeg()
+def prompt_file_inputs():
+    '''propmps for file searching'''
     music_dir = str(input("\ninput music dir.\n>>> "))
     print("\navailable formats:\n")
     for line in filetypes.format_dict_music.keys():
@@ -94,6 +109,48 @@ def main():
     if do_printfiles.lower() == "y":
         for each in file_array:
             print(each)
+    return file_array
+
+def prompt_file_output():
+    '''ask the user how they want the output files'''
+    available_formats = []
+    for line in filetypes.format_dict_music.values():
+        available_formats += line
+    print("available output options:\n")
+    for each in available_formats:
+        print(each)
+    print("\nplease select one format for all output files.")
+    while 1==1:
+        try:
+            sel = str(input("file type:\n>>> "))
+            if sel in available_formats:
+                file_format = sel
+                break
+            else: raise ValueError
+        except ValueError:
+            print("\nsorry, i need a format on the list. please try again.\n")
+    print("\nok. now, what output structure would you like?")
+    print("1 - parallel: make a new folder. same directory structure.")
+    print("2 - in-place: each file goes into the same directory as the original.")
+    sel = menuutils.integerSelection(1,2)
+    return [file_format, sel]
+
+def transform_outputs(input_array, output_type, orig_path, format_ext):
+    '''take our input array and transform it for output structure'''
+    output_array = []
+    if output_type == int(1): #parallel
+        print("parallel")
+    elif output_type == int(2): #in-place
+        print("in-place")
+        
+
+def main():
+    '''run other functions'''
+    #ffmpeg_dir = find_ffmpeg()
+    #file_array = prompt_file_inputs()
+    #args = prompt_for_args()
+    #file_output
+    #output_options = prompt_file_output()
 
 
 if __name__ == "__main__":
