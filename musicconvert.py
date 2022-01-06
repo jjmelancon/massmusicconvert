@@ -61,8 +61,8 @@ def specify_ffmpeg():
 
 def find_ffmpeg():
     '''reports if the system has ffmpeg installed'''
-    #add windows support soon(tm)
-    #no mac support because i don't have that
+    # add windows support soon(tm)
+    # no mac support because i don't have that
     if sys.platform == "linux" and os.path.exists("/bin/ffmpeg"):
         print("found ffmpeg install at /bin/ffmpeg")
         return "/bin/ffmpeg"
@@ -71,25 +71,31 @@ def find_ffmpeg():
         return specify_ffmpeg()
 
 
-def run_ffmpeg(ffmpeg_dir, input_file, args, output_file):
+def execute_ffmpeg(ffmpeg_dir, io_dict, args):
     '''run ffmpeg'''
+    for input_dir in io_dict.keys():
+        command = str("{} -i '{}' {}'{}'".format(
+            ffmpeg_dir, input_dir, args, io_dict[input_dir]))
+        os.system(command)
+
 
 def prompt_for_args():
     '''prompt the user to input arguments'''
     args = str("")
     print("please enter the output file's bitrate in kbps. enter '0' for no bitrate change.")
-    while 1==1:
+    while 1 == 1:
         try:
             bitrate = int(input("new bitrate:\n>>> "))
             break
         except ValueError:
             print("sorry, that doesn't look like a whole number. try again please!")
     if bitrate != 0:
-        args += str("-ab " + bitrate + "k ")
+        args += str("-ab " + str(bitrate) + "k ")
     strip_art = str(input("strip music album art? (y/N)\n>>> "))
     if strip_art.lower() == "y":
         args += str("—vn ")
     return args
+
 
 def prompt_file_inputs():
     '''propmps for file searching'''
@@ -109,7 +115,8 @@ def prompt_file_inputs():
     if do_printfiles.lower() == "y":
         for each in file_array:
             print(each)
-    return file_array
+    return [file_array, music_dir]
+
 
 def prompt_file_output():
     '''ask the user how they want the output files'''
@@ -120,37 +127,100 @@ def prompt_file_output():
     for each in available_formats:
         print(each)
     print("\nplease select one format for all output files.")
-    while 1==1:
+    while 1 == 1:
         try:
             sel = str(input("file type:\n>>> "))
             if sel in available_formats:
                 file_format = sel
                 break
-            else: raise ValueError
+            else:
+                raise ValueError
         except ValueError:
             print("\nsorry, i need a format on the list. please try again.\n")
     print("\nok. now, what output structure would you like?")
     print("1 - parallel: make a new folder. same directory structure.")
     print("2 - in-place: each file goes into the same directory as the original.")
-    sel = menuutils.integerSelection(1,2)
+    sel = menuutils.integerSelection(1, 2)
     return [file_format, sel]
+
 
 def transform_outputs(input_array, output_type, orig_path, format_ext):
     '''take our input array and transform it for output structure'''
     output_array = []
-    if output_type == int(1): #parallel
+    if orig_path[-1] != "/":
+        orig_path += "/"
+    if output_type == int(1):  # parallel
         print("parallel")
-    elif output_type == int(2): #in-place
+
+        # if we can get the length of the original path, we can cut it off
+        # by cutting off the first x characters of the input file, which will
+        # always be the length of orig_path
+
+        orig_path_len = int(len(orig_path))
+
+        # get the new directory and add a '/' if nessesary at the end
+
+        new_dir = str(input("\ninput new music dir.\n>>> "))
+        if new_dir[-1] != "/":
+            new_dir += "/"
+
+        output_array = []  # make an array for our output dirs
+
+        for old_path in input_array:  # input path processing
+            # start by cutting off old path
+            new_stub = old_path[orig_path_len:]
+            # cut old extension off of new_stub
+            # this code is awful because we can't just split at periods
+            # example: "J. Cole" has a period in the artist name, so that
+            # would ruin the directory structure if we split and reassembled
+            # instead, we can split at periods, take the length of
+            # the last item, then chop it off of the end of new_stub
+            new_stub_split = new_stub.split(".")  # split it up
+            chars_to_chop = len(new_stub_split[-1]) + 1  # add 1 for '.'
+            # save our work on top of new_stub
+            new_stub = new_stub[:-chars_to_chop] + "." + format_ext
+            # finally, get our output path
+            new_out_path = new_dir + new_stub
+            # save to output_array
+            output_array.append(new_out_path)
+    elif output_type == int(2):  # in-place
         print("in-place")
-        
+        # this is the same as parallel, except that we don't change
+        # the full path, just the extension! easy peasy.
+        output_array = []  # make an array for our output dirs
+
+        for old_path in input_array:  # input path processing
+            # cut old extension off of new_stub
+            # see the parallel option to see why this is awful
+            old_path_split = old_path.split(".")  # split it up
+            chars_to_chop = len(old_path_split[-1]) + 1  # add 1 for '.'
+            # save our work on top of new_stub
+            new_out_path = old_path[:-chars_to_chop] + "." + format_ext
+            # save to output_array
+            output_array.append(new_out_path)
+    ffmpeg_files_dict = dict(zip(input_array, output_array))
+    print(ffmpeg_files_dict)
+    return ffmpeg_files_dict
+
 
 def main():
     '''run other functions'''
-    #ffmpeg_dir = find_ffmpeg()
-    #file_array = prompt_file_inputs()
-    #args = prompt_for_args()
-    #file_output
-    #output_options = prompt_file_output()
+    ffmpeg_dir = find_ffmpeg()
+
+    file_array_pkg = prompt_file_inputs()  # needs to be unpacked below
+    file_array = file_array_pkg[0]  # array of files that needs to be converted
+    orig_path = file_array_pkg[1]  # path that we asked the user for
+
+    args = prompt_for_args()  # to be used for output. bitrate, retain art, etc
+
+    output_options_pkg = prompt_file_output()  # get our output options. array
+    format_ext = output_options_pkg[0]  # file extensions
+    dir_struct_type = output_options_pkg[1]  # parallel or in-place
+
+    output_dict = transform_outputs(
+        file_array, dir_struct_type, orig_path, format_ext)
+
+    execute_ffmpeg(ffmpeg_dir, output_dict, args)
 
 
 if __name__ == "__main__":
