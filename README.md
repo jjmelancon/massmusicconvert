@@ -14,8 +14,10 @@ check for ffmpeg on linux
 either convert alongside (easy), or parallel into a new directory (medium)  
 actually pass commands to ffmpeg  
 guided interface  
+parallel directory headaches
 
 ### need to do:
 
+figure out bitrate selection issues  
 create command line argument interface  
-fix parallel directory not found issue  
+get it working on windows  

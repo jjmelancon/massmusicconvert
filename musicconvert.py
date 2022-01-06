@@ -6,6 +6,7 @@
 
 import os
 import sys
+from pathlib import Path
 
 import filetypes
 import menuutils
@@ -71,9 +72,24 @@ def find_ffmpeg():
         return specify_ffmpeg()
 
 
+def missing_dir_test(file_path):
+    '''test if a dir exists from a file path. if it does not, make it!'''
+    split_file_dir = file_path.split("/")
+    split_file_dir.pop()
+    test_dir = "/".join(split_file_dir)
+    p = Path(test_dir)
+    if not p.exists():
+        print("'{}' does not exist! creating now...".format(test_dir))
+        os.system("mkdir -p '{}'".format(test_dir))
+
+
 def execute_ffmpeg(ffmpeg_dir, io_dict, args):
     '''run ffmpeg'''
+    # wee woo wee woo, bad code ahead
     for input_dir in io_dict.keys():
+        # check if directories exist first!!!
+        output_dir = io_dict[input_dir]
+        missing_dir_test(output_dir)
         command = str("{} -i '{}' {}'{}'".format(
             ffmpeg_dir, input_dir, args, io_dict[input_dir]))
         os.system(command)
@@ -82,6 +98,9 @@ def execute_ffmpeg(ffmpeg_dir, io_dict, args):
 def prompt_for_args():
     '''prompt the user to input arguments'''
     args = str("")
+    strip_art = str(input("strip music album art? (y/N)\n>>> "))
+    if strip_art.lower() == "y":
+        args += str("-vn ")
     print("please enter the output file's bitrate in kbps. enter '0' for no bitrate change.")
     while 1 == 1:
         try:
@@ -91,9 +110,6 @@ def prompt_for_args():
             print("sorry, that doesn't look like a whole number. try again please!")
     if bitrate != 0:
         args += str("-ab " + str(bitrate) + "k ")
-    strip_art = str(input("strip music album art? (y/N)\n>>> "))
-    if strip_art.lower() == "y":
-        args += str("—vn ")
     return args
 
 
@@ -150,8 +166,6 @@ def transform_outputs(input_array, output_type, orig_path, format_ext):
     if orig_path[-1] != "/":
         orig_path += "/"
     if output_type == int(1):  # parallel
-        print("parallel")
-
         # if we can get the length of the original path, we can cut it off
         # by cutting off the first x characters of the input file, which will
         # always be the length of orig_path
@@ -184,7 +198,6 @@ def transform_outputs(input_array, output_type, orig_path, format_ext):
             # save to output_array
             output_array.append(new_out_path)
     elif output_type == int(2):  # in-place
-        print("in-place")
         # this is the same as parallel, except that we don't change
         # the full path, just the extension! easy peasy.
         output_array = []  # make an array for our output dirs
@@ -199,7 +212,6 @@ def transform_outputs(input_array, output_type, orig_path, format_ext):
             # save to output_array
             output_array.append(new_out_path)
     ffmpeg_files_dict = dict(zip(input_array, output_array))
-    print(ffmpeg_files_dict)
     return ffmpeg_files_dict
 
 
