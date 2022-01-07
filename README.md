@@ -19,5 +19,7 @@ parallel directory headaches
 ### need to do:
 
 figure out bitrate selection issues  
+comment my code betterer  
 create command line argument interface  
 get it working on windows  
+build proper gui (tkinter?)  

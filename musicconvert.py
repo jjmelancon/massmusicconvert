@@ -80,7 +80,7 @@ def missing_dir_test(file_path):
     p = Path(test_dir)
     if not p.exists():
         print("'{}' does not exist! creating now...".format(test_dir))
-        os.system("mkdir -p '{}'".format(test_dir))
+        os.system('mkdir -p "{}"'.format(test_dir))
 
 
 def execute_ffmpeg(ffmpeg_dir, io_dict, args):
@@ -90,7 +90,7 @@ def execute_ffmpeg(ffmpeg_dir, io_dict, args):
         # check if directories exist first!!!
         output_dir = io_dict[input_dir]
         missing_dir_test(output_dir)
-        command = str("{} -i '{}' {}'{}'".format(
+        command = str('{} -i "{}" {}"{}"'.format(
             ffmpeg_dir, input_dir, args, io_dict[input_dir]))
         os.system(command)
 
