@@ -67,9 +67,19 @@ def find_ffmpeg():
     if sys.platform == "linux" and os.path.exists("/bin/ffmpeg"):
         print("found ffmpeg install at /bin/ffmpeg")
         return "/bin/ffmpeg"
+    elif sys.platform == "win32":
+        print("windows is not supported at this time.\ngoodbye!")
+        exit()
+    elif sys.platform == "darwin":
+        print("!! i have not yet tested macos!")
+        print("please manually specify where your ffmpeg binary is.")
+        return specify_ffmpeg()
     elif sys.platform == "linux":
         print("!! i did not find ffmpeg on your system.")
         return specify_ffmpeg()
+    else:
+        print("sorry, your platform is not supported by this script.")
+        exit()
 
 
 def missing_dir_test(file_path):
