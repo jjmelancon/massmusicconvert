@@ -20,18 +20,18 @@ windows: **no**. windows uses a vastly different directory structure than a unix
 
 scan for files  
 select by file type  
-check for ffmpeg on linux  
+check for ffmpeg on linux, mac, & windows  
 either convert alongside (easy), or parallel into a new directory (medium)  
 actually pass commands to ffmpeg  
 guided interface  
-parallel directory headaches
+parallel directory headaches  
+probably working on windows  
 
 ### need to do:
 
-get it working on windows  
+check ffmpeg directory on win32 for spaces  
 verify macos compatibility  
 figure out bitrate selection issues  
-create command line argument interface  
 build proper gui (tkinter?)  
 implement features  
 standalone windows executable  
