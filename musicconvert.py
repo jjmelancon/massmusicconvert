@@ -45,28 +45,28 @@ def execute_ffmpeg(ffmpeg_dir, io_dict, args):
 def parse_args(args_array):
     '''parse arguments that are passed through via the command line'''
     possible_modes = [
-        "-gcli",
-        "-cli",
-        "-gui"
+        "--gcli",
+        "--cli",
+        "--gui"
     ]
     if len(args_array) == 1:
         # assume guided cli
         print("no arguments passed, assuming guided cli...")
-        return "gcli"
-    elif len(args_array) > 2 and args_array[1] == "-cli":
+        return "--gcli"
+    elif len(args_array) > 2 and args_array[1] == "--cli":
         # implement soon (tm)
-        print("not finished. use gcli.")
+        print("not finished. use --gcli.")
         exit()
     elif len(args_array) == 2 and args_array[1] in possible_modes:
         # return the mode
         return args_array[1]
-    elif len(args_array) == 2 and args_array[1] == "-h":
+    elif len(args_array) == 2 and args_array[1] == "--help":
         # give help
-        print("massmusicconvert. args: -gcli, -cli, -gui")
+        print("massmusicconvert. args: --gcli, --cli, --gui")
         exit()
     else:
         # bad args
-        print("bad args. run with -h for help.")
+        print("bad args. run with --help for help.")
         print(args_array)
         exit()
 
@@ -75,7 +75,7 @@ def main():
     '''run other functions'''
     output_mode = parse_args(sys.argv)
 
-    if output_mode == "-gcli":
+    if output_mode == "--gcli":
         ffmpeg_dir = syscheck.find_ffmpeg()
 
         file_array_pkg = guidedcli.prompt_file_inputs()  # needs to be unpacked
@@ -93,8 +93,11 @@ def main():
             file_array, dir_struct_type, orig_path, format_ext)
 
         execute_ffmpeg(ffmpeg_dir, output_dict, args)
-    elif output_mode == "-gui":
+    elif output_mode == "--gui":
         gui.main()
+    elif output_mode == "--cli":
+        print("not yet implemented, sorry :(")
+        exit()
 
 
 if __name__ == "__main__":

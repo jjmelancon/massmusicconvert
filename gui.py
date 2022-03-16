@@ -66,6 +66,9 @@ def select_directory_window():
     root.mainloop()
     print(music_dir_orig)
 
+def main():
+    music_dir_orig = ""
+    select_directory_window()
 
-music_dir_orig = ""
-select_directory_window()
+if __name__ == "__main__":
+    main()
