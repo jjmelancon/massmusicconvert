@@ -6,6 +6,7 @@
 
 import os
 import sys
+import fileops
 
 
 platform = sys.platform
@@ -25,7 +26,8 @@ def specify_ffmpeg():
                 print("goodbye!")
                 exit()
             # os.path.exists is able to check if this is a real location
-            # todo: make it work on windows
+            elif fileops.check_spaces(f_d) and platform == "win32":
+                raise Exception("sorry, ffmpeg's path can't have spaces.")
             elif os.path.exists(f_d):
                 print("ok! using specified ffmpeg binary.")
                 return f_d
@@ -56,15 +58,16 @@ def find_ffmpeg():
     # implement. stay tuned.
     # just exit so i don't have to fix it now.
     elif sys.platform == "win32" and os.path.exists(win_loc):
-        print("!! windows is currently untested, but continuing...")
+        print("!! windows is in preliminary support, continuing...")
         print("found ffmpeg install at {}".format(win_loc))
         return win_loc
 
     # run this if we can't find ffmpeg for windows!
     elif platform == "win32":
-        print("!! windows is currently untested, but continuing...")
+        print("!! windows is in preliminary support, continuing...")
         print("!! i did not find ffmpeg on your system.")
         print("please specify ffmpeg location or command")
+        print("ffmpeg's path cannot have spaces. refrain from doing that.")
         print("use '/' instead of '\\' and start with 'c:/' or otherwise!")
         return specify_ffmpeg()
 

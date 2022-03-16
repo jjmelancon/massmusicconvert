@@ -55,6 +55,16 @@ def find_files(music_dir, extensions):
     return file_array
 
 
+def check_spaces(path):
+    '''check if a directory has spaces'''
+    has_space = False
+    path_folders = path.split("/")
+    for folder in path_folders:
+        if " " in folder:
+            has_space = True
+    return has_space
+
+
 def missing_dir_test(file_path):
     '''test if a dir exists from a file path. if it does not, make it!'''
     # start by splitting the path by slashes. this is not win32 compatable!

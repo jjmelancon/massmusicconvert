@@ -1,50 +1,54 @@
 # massmusicconvert
 
-## this project is a work in progress!
+## This project is a work in progress! Do not have any expectation of it working properly in its current state!  
 
-### massmusicconvert is a Python3 script that recursively scans a directory in an effort to find music files. this list is passed to ffmpeg for conversion. i'm very *lightly* considering adding support for scraping metadata. this project is gplv3, use it however you would like within the terms of the license.  
+### massmusicconvert is a Python3 script that aims to convert a folder full of music to a different format of the user's choice. The script works by recursively scanning a directory in an effort to find music files, then passing the files one by one to FFmpeg for conversion. This project is GPLv3, use it however you would like within the terms of the license.  
 
 ## documentation:
 
-there is no documentation at this time, hmu if you have any questions.  
+There is no documentation at this time, HMU if you have any questions.  
 
 ## supported platforms:
 
-##### **linux**: yes. tested on Arch Linux 5.15 with Python 3.10.1  
-##### **macos**: maybe. i do not own a mac and am too lazy to make a virtual machine at this time. all linux commands should interface properly with their unix counterparts, but don't count on any formal testing yet.  
-##### **windows**: ***probably***. windows uses a vastly different directory structure than a unix or linux type system, using C:\ as root as well as using backslashes instead of forward slashes like a sane operating system. thus, separate functions must be made to convert python input to an output that win32's cmd can understand. i've made functions to handle these specific issues, however no spaces can be in the ffmpeg directory path as a result of issues with getting win32's cmd to interpret spaces in directories properly. no other issues have manifested at this time.
+##### **Linux**: Yes. Tested on Arch Linux 5.15 with Python 3.10.1  
+##### **MacOS**: Maybe. I do not own a Mac and am too lazy to make a virtual machine at this time. All Linux commands should interface properly with their Unix counterparts, but don't count on any formal testing yet.  
+##### **Windows**: ***Mostly***. Windows uses a vastly different directory structure than a Unix or Linux type system, using C:\ as root as well as using backslashes instead of forward slashes like a sane operating system. thus, separate functions must be made to convert python input to an output that Win32's CMD can understand. I've made functions to handle these specific issues, however no spaces can be in the FFmpeg directory path as a result of issues with getting Win32's CMD to interpret spaces in directories properly. No other issues have manifested at this time.
 
 ## dependencies:
 
-##### **linux**: python3, ffmpeg. install ffmpeg to /bin/ffmpeg or manually specify the path to your ffmpeg directory.  
-##### **macos**: python3, ffmpeg. you must manually specify where ffmpeg is located.  
-##### **windows**: python3, ffmpeg. install ffmpeg to c:/ffmpeg/bin/ffmpeg.exe or manually specify the path to your ffmpeg directory.
+##### **Linux**: Python3, FFmpeg. install FFmpeg to /bin/ffmpeg or manually specify the path to your FFmpeg directory.  
+##### **MacOS**: Python3, FFmpeg. you must manually specify where FFmpeg is located.  
+##### **Windows**: Python3, FFmpeg. install FFmpeg to C:\ffmpeg\bin\ffmpeg.exe or manually specify the path to your FFmpeg directory.
+
+## running:
+
+If you want to run this code, good luck lol. Your best bet will be to use a release version on a Linux distro. I'm still working on the code, so consider everything in the main branch broken until this program reaches a full release, meaning I've accomplished everything in the todo section.
 
 ## task list:
 
 ### done:
 
-scan for files  
-select by file type  
-check for ffmpeg on linux, mac, & windows  
-either convert alongside (easy), or parallel into a new directory (medium)  
-actually pass commands to ffmpeg  
-guided interface  
-parallel directory headaches  
-probably working as intended on windows  
+Scan for files  
+Select by file type  
+Check for FFmpeg on Linux, Mac, & Windows  
+Either convert alongside (easy), or parallel into a new directory (medium)  
+Actually pass commands to FFmpeg  
+Guided command line interface  
+Parallel directory headaches  
+Probably working as intended on Windows  
+Check FFmpeg directory on Win32 for spaces  
 
 ### need to do:
 
-check ffmpeg directory on win32 for spaces  
-verify macos compatibility  
-figure out bitrate selection issues  
-build proper gui (tkinter?)  
-implement more features  
-standalone windows executable  
-documentation  
+Verify MacOS compatibility  
+Figure out bitrate selection issues  
+Build proper GUI (Tkinter?)  
+Implement more features  
+Standalone windows executable  
+Documentation  
 
 ### ongoing goals:
 
-keep code clean and commented  
-simplify convoluted code  
-adhere to pep8 as best as possible  
+Keep code clean and commented  
+Simplify convoluted code  
+Adhere to PEP8 as best as possible  

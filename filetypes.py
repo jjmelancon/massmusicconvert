@@ -1,4 +1,4 @@
-# Joseph Melancon
+# jmelancon
 # joseph@jmelancon.com
 # 2022
 
