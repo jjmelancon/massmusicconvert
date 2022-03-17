@@ -1,4 +1,4 @@
-# This project is a work in progress! Do not have any expectation of it working properly in its current state!  
+# This project is a work in progress. Do not have any expectation of it working properly in its current state!  
 
 massmusicconvert is a Python3 script that aims to convert a folder full of music to a different format of the user's choice. The script works by recursively scanning a directory in an effort to find music files, then passing the files one by one to FFmpeg for conversion. This project is GPLv3, use it however you would like within the terms of the license.  
 
