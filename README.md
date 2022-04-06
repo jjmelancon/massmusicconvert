@@ -43,6 +43,7 @@ Check FFmpeg directory on Win32 for spaces
 Verify MacOS compatibility  
 Figure out bitrate selection issues  
 Build proper GUI (Tkinter?)  
+Multithreading  
 Implement more features  
 Standalone Windows executable  
 Documentation  
