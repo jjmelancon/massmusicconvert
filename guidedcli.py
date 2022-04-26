@@ -9,23 +9,37 @@ import fileops
 
 
 def prompt_file_inputs():
-    '''propmps for file searching'''
-    if syscheck.platform == 'win32':
-        print("input your music directory below starting with 'c:/'.")
-        print("use '/' instead of '\\' please!")
-    else:
-        print("please input your music directory below.")
-    music_dir = str(input("\nmusic dir:\n>>> "))
+    '''prompts for file searching'''
+    while True:
+        if syscheck.platform == 'win32':
+            print("input your music directory below starting with 'c:/'.")
+            print("use '/' instead of '\\' please!")
+        else:
+            print("please input your music directory below. don't use quotes.")
+        music_dir = str(input("\nmusic dir:\n>>> "))
+
+        if fileops.dir_exists_test(music_dir):
+            print("\ndirectory exists. continuing.")
+            break
+        else:
+            print("\nthis directory does not exist. please check input.")
     print("\navailable formats:\n")
     for line in filetypes.format_dict_music.keys():
         print(line)
     print()
     # filetypes.format_dict_music["ogg-vorbis"]
+    print("gimmie formats, multiple separated by commas, no space.")
     formats_to_use = str(
-        input("gimmie formats, multiple separated by commas, no space.\n>>> "))
+        input("alternatively, you can type \"all\" to select all music.\n>>> "))
     file_exts = []
-    for each in formats_to_use.split(","):
-        file_exts += filetypes.format_dict_music[each]
+    if "all" in formats_to_use:
+        for each in filetypes.format_dict_music.keys():
+            file_exts += filetypes.format_dict_music[each]
+        print(file_exts)
+    else:
+        for each in formats_to_use.split(","):
+            file_exts += filetypes.format_dict_music[each]
+        print(file_exts)
     file_array = fileops.find_files(music_dir, file_exts)
     do_printfiles = str(input("should i print the files i found? (y/N)\n>>> "))
     if do_printfiles.lower() == "y":
@@ -48,7 +62,8 @@ def prompt_for_args():
         args += str("-vn ")
     # now for bitrate
     print("please enter the output file's bitrate in kbps.")
-    print("enter '0' to let ffmpeg choose.")
+    print("enter '0' to use source bitrate."
+        " you'll need to specify where ffprobe is located.")
     # todo: create 1:1 bitrate option
     # use try/except to get an int
     while 1 == 1:
@@ -59,14 +74,19 @@ def prompt_for_args():
         except ValueError:
             #  make them try again
             print("sorry, that doesn't look like a whole number.")
-    if bitrate != 0:
+    if bitrate == 0:
+        ffprobe_location = syscheck.find_ffprobe()
+    else:
         args += str("-ab " + str(bitrate) + "k ")
-    return args
+        ffprobe_location = ""
+    return [args, ffprobe_location]
 
 
 def transform_outputs(input_array, output_type, orig_path, format_ext):
     '''take our input array and transform it for output structure'''
     output_array = []
+    # we need to sanitize the path so we can figure out its length
+    orig_path = fileops.dir_sanitizer(orig_path)
     # add a "/" if it is not at the end of the path
     if orig_path[-1] != "/":
         orig_path += "/"
@@ -111,7 +131,7 @@ def transform_outputs(input_array, output_type, orig_path, format_ext):
             old_path_split = old_path.split(".")  # split it up
             chars_to_chop = len(old_path_split[-1]) + 1  # add 1 for '.'
             # save our work on top of new_stub
-            new_out_path = old_path[:-chars_to_chop] + "." + format_ext
+            new_out_path = old_path[:-chars_to_chop] + "_converted." + format_ext
             # save to output_array
             output_array.append(new_out_path)
     # i don't know how this works but it does lol

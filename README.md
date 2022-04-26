@@ -16,9 +16,10 @@ There is no documentation at this time, HMU if you have any questions.
 
 ## dependencies:
 
-**Linux**: Python3, FFmpeg. Install FFmpeg to /bin/ffmpeg or manually specify the path to your FFmpeg directory.  
-**MacOS**: Python3, FFmpeg. You must manually specify where FFmpeg is located.  
-**Windows**: Python3, FFmpeg. Install FFmpeg to C:\ffmpeg\bin\ffmpeg.exe or manually specify the path to your FFmpeg directory.
+**Linux**: Python3, FFmpeg, (Optional) FFprobe. Install FFmpeg to /bin/ffmpeg or manually specify the path to your FFmpeg directory. The same applies for FFprobe *if* you choose to use the input file's bitrate for the output file.  
+**MacOS**: Python3, FFmpeg, (Optional) FFprobe. You must manually specify where FFmpeg is located. The same applies for FFprobe *if* you choose to use the input file's bitrate for the output file.  
+**Windows**: Python3, FFmpeg, (Optional). Install FFmpeg to C:\ffmpeg\bin\ffmpeg.exe or manually specify the path to your FFmpeg directory. The same applies for FFprobe *if* you choose to use the input file's bitrate for the output file.    
+*Note on FFprobe dependency:* FFprobe is often included with builds of FFmpeg. For Linux users installing FFmpeg from their package manager, FFprobe will likely be installed too. For Windows and MacOS users, FFprobe will likely come in the same zip file as FFmpeg.
 
 ## running:
 
@@ -41,7 +42,7 @@ Check FFmpeg directory on Win32 for spaces
 ### need to do:
 
 Verify MacOS compatibility  
-Figure out bitrate selection issues  
+Verify Windows compatibility  
 Build proper GUI (Tkinter?)  
 Implement more features  
 Standalone Windows executable  

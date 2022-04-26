@@ -6,6 +6,7 @@
 
 import os
 import sys
+import subprocess
 
 import syscheck
 import fileops
@@ -13,32 +14,47 @@ import guidedcli
 import gui
 
 
-def execute_ffmpeg(ffmpeg_dir, io_dict, args):
+def execute_ffmpeg(ffmpeg_dir, io_dict, args, ffprobe_dir):
     '''run ffmpeg'''
     # special case for windows because it is annoying
     # they really like their backlashes and quotes around spaces
     # so the path has to be doctored before we run ffmpeg_dir
     if syscheck.platform == "win32":
         ffmpeg_dir = fileops.prep_dir_win(ffmpeg_dir, False)
+        if ffprobe_dir != "":
+            ffprobe_dir = fileops.prep_dir_win(ffprobe_dir, False)
     # so for each key in the input/output dictionary, which will be an input,
     # we will use the key (input) to get the value (output), then splice that
     # all into a command string to run via ffmpeg on *nix systems
     for input_dir in io_dict.keys():
+        tmp_args = args
         # check if directories exist first!!!
         # see fileops.missing_dir_test_nix()
         output_dir = io_dict[input_dir]
         fileops.missing_dir_test(output_dir)
+        # if user wanted to retain source bitrate, we need to get it now.
+        # we'll use ffprobe to get the bitrate, then append it to the args
+        # variable.
+        if ffprobe_dir != "":
+            ffprobe_args = "-show_entries format=bit_rate -hide_banner -loglevel quiet"
+            print(ffprobe_dir)
+            print('"{}" {} "{}"'.format(ffprobe_dir, ffprobe_args, io_dict[input_dir]))
+            bitrate = subprocess.getoutput('"{}" {} "{}"'.format(ffprobe_dir, ffprobe_args, input_dir))[18:-10]
+            print(bitrate)
+            bitrate_usable = int(bitrate) // 1000
+            tmp_args += str("-ab " + str(bitrate_usable) + "k ")
         # {ffmpeg} -i "{input}" {arguments}"{output}"
         # note that the arguments string has a space at the end by default
         if syscheck.platform == "linux" or syscheck.platform == "unix":
             command = str('"{}" -i "{}" {}"{}"'.format(
-                ffmpeg_dir, input_dir, args, io_dict[input_dir]))
+                ffmpeg_dir, input_dir, tmp_args, io_dict[input_dir]))
         else:
             command = str('{} -i "{}" {}"{}"'.format(
-                ffmpeg_dir, fileops.prep_dir_win(input_dir, False), args,
+                ffmpeg_dir, fileops.prep_dir_win(input_dir, False), tmp_args,
                 fileops.prep_dir_win(io_dict[input_dir], False)))
         # moment of truth
-        print(command)
+        #print("\n\nDEBUG\nNEW PATH:\n" + io_dict[input_dir] + "\nBITRATE:\n" + str(bitrate_usable) + "\nCOMMAND:")
+        #print(command)
         os.system(command)
 
 
@@ -83,7 +99,7 @@ def main():
         file_array = file_array_pkg[0]
         orig_path = file_array_pkg[1]  # path that we asked the user for
 
-        args = guidedcli.prompt_for_args()  # output args. bitrate, retain art
+        args_array = guidedcli.prompt_for_args()  # output args, ffprobe path
 
         output_options_pkg = guidedcli.prompt_file_output()  # get output opts
         format_ext = output_options_pkg[0]  # file extensions
@@ -92,7 +108,7 @@ def main():
         output_dict = guidedcli.transform_outputs(
             file_array, dir_struct_type, orig_path, format_ext)
 
-        execute_ffmpeg(ffmpeg_dir, output_dict, args)
+        execute_ffmpeg(ffmpeg_dir, output_dict, args_array[0], args_array[1])
     elif output_mode == "--gui":
         gui.main()
     elif output_mode == "--cli":
