@@ -12,6 +12,7 @@ import syscheck
 import fileops
 import guidedcli
 import gui
+import multiexec
 
 
 def execute_ffmpeg(ffmpeg_dir, io_dict, args, ffprobe_dir):
@@ -108,7 +109,7 @@ def main():
         output_dict = guidedcli.transform_outputs(
             file_array, dir_struct_type, orig_path, format_ext)
 
-        execute_ffmpeg(ffmpeg_dir, output_dict, args_array[0], args_array[1])
+        multiexec.execute_ffmpeg_split(ffmpeg_dir, output_dict, args_array[0], args_array[1])
     elif output_mode == "--gui":
         gui.main()
     elif output_mode == "--cli":
