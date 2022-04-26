@@ -38,6 +38,7 @@ Guided command line interface
 Parallel directory headaches  
 Probably working as intended on Windows  
 Check FFmpeg directory on Win32 for spaces  
+multicore processing  
 
 ### need to do:
 
