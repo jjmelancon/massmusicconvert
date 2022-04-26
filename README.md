@@ -1,4 +1,4 @@
-# This project is a work in progress. Do not have any expectation of it working properly in its current state!  
+# massmusicconvert
 
 massmusicconvert is a Python3 script that aims to convert a folder full of music to a different format of the user's choice. The script works by recursively scanning a directory in an effort to find music files, then passing the files one by one to FFmpeg for conversion. This project is GPLv3, use it however you would like within the terms of the license.  
 
@@ -8,9 +8,9 @@ There is no documentation at this time, HMU if you have any questions.
 
 ## supported platforms:
 
-**Linux**: Yes. Tested on Arch Linux 5.15 with Python 3.10.1  
+**Linux**: Yes. Tested on Arch Linux and Fedora 35 with Python 3.10.1, both running kernel 5.16  
 **MacOS**: Maybe. I do not own a Mac and am too lazy to make a virtual machine at this time. All Linux commands should interface properly with their Unix counterparts, but don't count on any formal testing yet.  
-**Windows**: ***Mostly***. Windows uses a vastly different directory structure than a Unix or Linux type system, using C:\ as root as well as using backslashes instead of forward slashes like a sane operating system. Thus, separate functions must be made to convert python input to an output that Win32's CMD can understand. I've made functions to handle these specific issues, however no spaces can be in the FFmpeg directory path as a result of issues with getting Win32's CMD to interpret spaces in directories properly. No other issues have manifested at this time.
+**Windows**: ***Kinda***. Windows uses a vastly different directory structure than a Unix or Linux type system, using C:\ as root as well as using backslashes instead of forward slashes like a sane operating system. Thus, separate functions must be made to convert python input to an output that Win32's CMD can understand. I've made functions to handle these specific issues, however no spaces can be in the FFmpeg directory path as a result of issues with getting Win32's CMD to interpret spaces in directories properly. No other issues have manifested at this time.
 
 ## dependencies:
 
