@@ -1,3 +1,5 @@
+remote_theme: jmelancon/monotheme
+
 title: "massmusicconvert: mass music conversion for the masses"
 project_name: "massmusicconvert"
 baseurl: "" # the subpath of your site, e.g. /blog
