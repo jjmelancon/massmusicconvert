@@ -15,6 +15,8 @@ colors:
     text: Gainsboro
     textbox: "#424247"
     links: Gainsboro
+mobile:
+    header_text_size: 6
 
 plugins:
   - jemoji
