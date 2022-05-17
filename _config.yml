@@ -5,6 +5,7 @@ project_name: "massmusicconvert"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://massmusicconvert.jmelancon.com" # the base hostname & protocol for your site, e.g. http://example.com
 footer_text: "jmelancon/massmusicconvert" # text that goes in the lower left of the screen on the footer. for example, your project's repo name.
+icon_location: "/assets/project_pic.png" # where your project image is. don't leave blank!
 
 # Theming
 colors:
