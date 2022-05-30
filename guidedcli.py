@@ -6,6 +6,7 @@ import menuutils
 import syscheck
 import filetypes
 import fileops
+import colors
 
 
 def prompt_file_inputs():

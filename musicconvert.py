@@ -13,6 +13,7 @@ import fileops
 import guidedcli
 import gui
 import multiexec
+from colors import colortext
 
 
 def execute_ffmpeg(ffmpeg_dir, io_dict, args, ffprobe_dir):
@@ -68,7 +69,7 @@ def parse_args(args_array):
     ]
     if len(args_array) == 1:
         # assume guided cli
-        print("no arguments passed, assuming guided cli...")
+        print(colortext("no arguments passed, assuming guided cli...\n","purple",style="i"))
         return "--gcli"
     elif len(args_array) > 2 and args_array[1] == "--cli":
         # implement soon (tm)

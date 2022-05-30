@@ -7,6 +7,7 @@
 import os
 import sys
 import fileops
+from colors import colortext
 
 
 platform = sys.platform
@@ -19,24 +20,24 @@ def specify_ffmpeg():
         # try/except for if a bad file path is supplied
         try:
             # ask for the path
-            f_d = str(input("please type binary's directory or 'quit'\n>>> "))
+            f_d = str(input(colortext("please type binary's directory or 'quit'\n>>> ", "yellow", style="n")))
             # if a user realizes they don't have ffmpeg, they can just leave
             # we'll test this first because a user may have a file called quit
             if f_d.lower() == "quit":
-                print("goodbye!")
+                print(colortext("\ngoodbye!", "purple", style="b"))
                 exit()
             # os.path.exists is able to check if this is a real location
             elif fileops.check_spaces(f_d) and platform == "win32":
                 raise Exception("sorry, binary's path can't have spaces.")
             elif os.path.exists(f_d):
-                print("ok! using specified binary.")
+                print(colortext("\nok! using specified binary.\n", "green"))
                 return f_d
             # if neither of these are correct, we didn't find a file.
             else:
                 raise FileNotFoundError
         except FileNotFoundError:
-            print("that is not an existing file.")
-            print("please specify a path or command to a valid binary.")
+            print(colortext("that is not an existing file.", "red"))
+            print(colortext("please specify a path or command to a valid binary.\n", "red"))
 
 
 def find_ffmpeg():
@@ -50,7 +51,7 @@ def find_ffmpeg():
 
     # this case is the easiest. ffmpeg at default location on linux.
     if platform == "linux" and os.path.exists(lin_loc):
-        print("found ffmpeg install at /bin/ffmpeg")
+        print(colortext("found ffmpeg install at /bin/ffmpeg", "green", style="i"))
         return lin_loc
 
     # this is harder. windows uses non standard path separators,
@@ -84,8 +85,8 @@ def find_ffmpeg():
     # so if the platform is linux and ffmpeg isn't in /bin/,
     # we'll ask the user.
     elif sys.platform == "linux":
-        print("!! i did not find ffmpeg on your system.")
-        print("please specify ffmpeg location or command")
+        print(colortext("!! i did not find ffmpeg on your system.", "red", style="b"))
+        #print(colortext("please specify ffmpeg location or command", "yellow")) #old
         return specify_ffmpeg()
 
     # i only plan on doing operating systems on a whitelist basis,
