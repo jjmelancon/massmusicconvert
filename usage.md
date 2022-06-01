@@ -29,7 +29,7 @@ After you start the program, you'll need to get through a few questions before y
 4. Music Output Options  
     1. Specify audio output format  
     2. Specify folder behavior  
-        - Parallel means that your music will be in two different folders. For example, you would have one folder that has all your original music files and all of the newly converted files would be dumped into an entirely separate folder.  
+        - Parallel means that your music will be in two different folders. For example, you would have one folder that has all your original music files and all of the newly converted files would be dhomeumped into an entirely separate folder.  
             - Upon choosing parallel, you'll need to type in a new folder to put your music in. Beware that the program will make this exact path as you type it, so check for typos before hitting enter.  
         - In-Place means that your music will be put in the same exact folder as before. It'll land right next to the original file with a new name.  
 
@@ -62,6 +62,35 @@ Here's some examples of entries that WON'T work:
 
 # Escape Sequences Used on Spaces
 /home/username/Music/My\ Original\ Files/
+```  
+
+## Windows 10 and 11  
+
+### Prerequesites  
+Before running the program, we need to make sure that all required dependencies are installed, those being FFmpeg and Python 3. Windows comes with neither of these, so we'll need to install them if they aren't already. The best way to install Python is to open Powershell and type `python3 -v`. If Python isn't installed, you'll be brought to the Windows Store to install it. Otherwise, if you get a version number, Python is installed. As for FFmpeg, it can be downloaded from https://ffmpeg.org/download.html. Make sure to grab it in an executable format! Grab the full release build from the applicable "Release Builds" section. As for extracting, you'll need a program that can open 7z archives. I recommend https://7-zip.org for this task. Once extracted, rename the folder to "ffmpeg" and place it in `C:\`. If you can't place it there, that's alright! You'll just have to tell the program where ffmpeg is when you start it.  
+
+### Running the program  
+To start, download the latest release from https://github.com/jmelancon/massmusicconvert/releases. You should use the .zip file. Once you have it downloaded, extract it into a folder of your choosing. It'd be a good idea to keep it separate from other files, so don't just drop the files into a folder that already is full of items. After that, you can run the file `musicconvert.py` either by double-clicking it or by running it in Powershell.  
+
+### Entering directories  
+As the program is turning some files into other files, you'll be telling the program where stuff is a lot. That means you'll have to type out exactly where certain things are. When the program asks you to specify a file or folder, you should type in answers like this:  
+```c:/Users/username/Music/My Original Files/```  
+
+Some things to note with how this is written:  
+    - Nothing is in quotes. If you use quotes in these directories, the script will run into some issues. I am not going to fix this. Just type the path without any quotes.  
+    - Nothing special is done to spaces or capitals. They're just typed verbatim as they appear. 
+    - Backslashes are NOT used. PLEASE USE FORWARD SLASHES! This choice is made because of how Python handles directories with it's `os` module.  
+
+Here's some examples of entries that WON'T work:  
+```
+# Quotes
+c:/Users/username/Music/"My Original Files"/
+
+# Improper Separator
+c:\Users\username\Music\My Original Files\
+
+# Escape Sequences Used on Spaces
+c:/Users/username/Music/My\ Original\ Files/
 ```  
 
 [^1]: These bitrates are deemed high, mid, or low quality in the same manner as how Spotify handles it's quality options.
