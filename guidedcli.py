@@ -6,46 +6,66 @@ import menuutils
 import syscheck
 import filetypes
 import fileops
-import colors
+from colors import colortext
 
 
 def prompt_file_inputs():
     '''prompts for file searching'''
     while True:
         if syscheck.platform == 'win32':
-            print("input your music directory below starting with 'c:/'.")
-            print("use '/' instead of '\\' please!")
+            print(colortext("input your music directory below starting with the proper drive letter.", "cyan"))
+            print(colortext("remember, follow the directory structure outlined in the docs!", "cyan"))
         else:
-            print("please input your music directory below. don't use quotes.")
-        music_dir = str(input("\nmusic dir:\n>>> "))
+            print(colortext("please input your music directory below.", "cyan"))
+            print(colortext("remember, follow the directory structure outlined in the docs!", "cyan"))
+        music_dir = str(input(colortext("\nmusic dir:\n>>> ","yellow")))
 
         if fileops.dir_exists_test(music_dir):
-            print("\ndirectory exists. continuing.")
+            print(colortext("\ndirectory exists. continuing.\n", "green"))
             break
         else:
-            print("\nthis directory does not exist. please check input.")
-    print("\navailable formats:\n")
+            print(colortext("\nthis directory does not exist. please check input.\n", "red"))
+    print(colortext("available formats:", "cyan"))
     for line in filetypes.format_dict_music.keys():
-        print(line)
+        print(colortext("  • {}".format(line), "blue"))
     print()
-    # filetypes.format_dict_music["ogg-vorbis"]
-    print("gimmie formats, multiple separated by commas, no space.")
-    formats_to_use = str(
-        input("alternatively, you can type \"all\" to select all music.\n>>> "))
-    file_exts = []
-    if "all" in formats_to_use:
-        for each in filetypes.format_dict_music.keys():
-            file_exts += filetypes.format_dict_music[each]
-        print(file_exts)
-    else:
-        for each in formats_to_use.split(","):
-            file_exts += filetypes.format_dict_music[each]
-        print(file_exts)
+    while 1==1:
+        print(colortext("list the formats you want separated by commas with no space.", "cyan"))
+        print(colortext("alternatively, you can type \"all\" to select all music types.\n", "cyan"))
+        formats_to_use = str(
+            input(colortext("formats desired:\n>>> ", "yellow")))
+        file_exts = []
+        available_formats = []  # make an array for listing possible file types
+        # run those bad boys in the format dict off
+        for line in filetypes.format_dict_music.keys():
+            available_formats.append(line)
+        if formats_to_use == "all":
+            for each in filetypes.format_dict_music.keys():
+                file_exts += filetypes.format_dict_music[each]
+            break
+        else:
+            formats_bad = False
+            file_exts = []
+            for each in formats_to_use.split(","):
+                if each in available_formats:
+                    file_exts += filetypes.format_dict_music[each]
+                else:
+                    print(colortext("\nsorry, looks like you made a typo!", "red"))
+                    print(colortext("\"{}\" is not a valid file format.\n".format(each), "red"))
+                    formats_bad = True
+            if not formats_bad:
+                break
+
+
     file_array = fileops.find_files(music_dir, file_exts)
-    do_printfiles = str(input("should i print the files i found? (y/N)\n>>> "))
+    print(colortext("\ndo you want to read a list of discovered files?", "cyan"))
+    print(colortext("just a heads up, this list is usually REALLY long.\n", "cyan"))
+    do_printfiles = str(input(colortext("list files? (y/N)\n>>> ", "yellow")))
     if do_printfiles.lower() == "y":
+        print(colortext("\ndiscovered files:\n", "blue"))
         for each in file_array:
             print(each)
+        print(colortext("\ntotal files found: {}".format(len(file_array)), "blue"))
     return [file_array, music_dir]
 
 
@@ -55,27 +75,29 @@ def prompt_for_args():
     args = str("")
     # '-vn' means '-(video)(no)'.
     # this will remove the art from the file!
-    strip_art = str(input("strip music album art? (y/N)\n>>> "))
+    print(colortext("\ndo you want to remove any cover images from processed songs?", "cyan"))
+    print(colortext("oftentimes people keep their art, but it may save some space to remove it.\n", "cyan"))
+    strip_art = str(input(colortext("strip art? (y/N)\n>>> ", "yellow")))
     # if it's not 'y' or 'Y', we do not care.
     if strip_art.lower() == "y":
         # trailing space to make adding the next argument less of a pain.
         # we correct for the additional space when we execute.
         args += str("-vn ")
     # now for bitrate
-    print("please enter the output file's bitrate in kbps.")
-    print("enter '0' to use source bitrate."
-        " you'll need to specify where ffprobe is located.")
-    # todo: create 1:1 bitrate option
+    print(colortext("\nwould you like to change the output file's bitrate?", "cyan"))
+    print(colortext("reducing bitrate can save lots of space but will reduce audio quality.", "cyan"))
+    print(colortext("enter a new bitrate here (ex. \"320\") or enter \"0\" to leave bitrates unchanged.\n", "cyan"))
     # use try/except to get an int
     while 1 == 1:
         try:
-            bitrate = int(input("new bitrate:\n>>> "))
+            bitrate = int(input(colortext("new bitrate:\n>>> ", "yellow")))
             # not testing for a high value because i'm lazy
             break
         except ValueError:
             #  make them try again
-            print("sorry, that doesn't look like a whole number.")
+            print(colortext("\nsorry, that doesn't look like a whole number.\n", "red"))
     if bitrate == 0:
+        # todo: check if ffprobe is in the same dir as ffmpeg before asking for it
         ffprobe_location = syscheck.find_ffprobe()
     else:
         args += str("-ab " + str(bitrate) + "k ")
@@ -99,8 +121,10 @@ def transform_outputs(input_array, output_type, orig_path, format_ext):
         orig_path_len = int(len(orig_path))
 
         # get the new directory and add a '/' if nessesary at the end
-
-        new_dir = str(input("\ninput new music dir.\n>>> "))
+        print(colortext("\nfor parallel directories, we'll need a new place for output files.", "cyan"))
+        print(colortext("directories are created automatically if they don't exist,", "cyan"))
+        print(colortext("so be careful that you aren't making any typos.\n", "cyan"))
+        new_dir = str(input(colortext("new music dir:\n>>> ", "yellow")))
         if new_dir[-1] != "/":
             new_dir += "/"
 
@@ -123,6 +147,7 @@ def transform_outputs(input_array, output_type, orig_path, format_ext):
             # save to output_array
             output_array.append(new_out_path)
     elif output_type == int(2):  # in-place
+        new_dir = orig_path
         # same as parallel but we only change the extension! easy peasy.
         output_array = []  # make an array for our output dirs
 
@@ -137,7 +162,7 @@ def transform_outputs(input_array, output_type, orig_path, format_ext):
             output_array.append(new_out_path)
     # i don't know how this works but it does lol
     ffmpeg_files_dict = dict(zip(input_array, output_array))
-    return ffmpeg_files_dict
+    return [ffmpeg_files_dict, new_dir]
 
 
 def prompt_file_output():
@@ -148,26 +173,41 @@ def prompt_file_output():
     for line in filetypes.format_dict_music.values():
         available_formats += line
     # do basically the same thing again
-    print("available output options:\n")
+    print(colortext("\navailable output options:", "cyan"))
     for each in available_formats:
-        print(each)
-    print("\nplease select one format for all output files.")
+        print(colortext("  • {}".format(each), "blue"))
+    print(colortext("\nplease select one format type for all output files.\n", "cyan"))
     # we need to get something that is already on the list, so try/except ftw
     while 1 == 1:
         try:
-            sel = str(input("file type:\n>>> "))
+            sel = str(input(colortext("file type:\n>>> ", "yellow")))
             if sel in available_formats:
                 file_format = sel
                 break
             else:
                 raise ValueError
         except ValueError:
-            print("\nsorry, i need a format on the list. please try again.\n")
+            print(colortext("\nsorry, i need one of the formats on the list. please try again.\n", "red"))
     # as i said, mostly on a rail
-    print("\nok. now, what output structure would you like?")
-    print("1 - parallel: make a new folder. same directory structure.")
-    print("2 - in-place: each file goes into the same place as the original.")
+    print(colortext("\nok. now, what output structure would you like?", "cyan"))
+    print(colortext("  1: parallel: make a new folder. same directory structure.", "blue"))
+    print(colortext("  2: in-place: each file goes into the same place as the original\n", "blue"))
     # see menuutils for how this works
     sel = menuutils.integer_selection(1, 2)
     # bundle it up and ship it off!
     return [file_format, sel]
+
+def confirm_choices(input_dir, output_dir, file_format):
+    print(colortext("the program is now ready to convert your music.", "cyan"))
+    print(colortext("before we continue though, please confirm that the following is correct:", "cyan"))
+    print(colortext("  • input folder: {}".format(fileops.dir_sanitizer(input_dir)), "blue"))
+    print(colortext("  • output folder: {}".format(output_dir), "blue"))
+    print(colortext("  • output type: {}".format(file_format), "blue"))
+    print(colortext("\nif you are ready to continue, please type", "cyan"),
+        colortext("\"YES\"", "red", style="b"),
+        colortext("to confirm your choices.", "cyan"))
+    while 1==1:
+        ready = input(colortext("\nare you ready?\n>>> ", "yellow"))
+        if ready == "YES":
+            print(colortext("\n!!! STARTING MUSIC CONVERSION !!!\n", "purple", style="b"))
+            break

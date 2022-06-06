@@ -11,7 +11,17 @@ import subprocess
 from multiprocessing import Pool
 
 def runcommand(command):
-    subprocess.run(command, shell=True)
+    global ran_commands
+    global total_commands
+    # special windows case :sob:
+    if (syscheck.platform == "win32"):
+        ffmpeg_process = subprocess.Popen(["powershell.exe", command])
+        ffmpeg_process.communicate()
+    # sane, non-nt oses
+    else:
+        subprocess.run(command, shell=True)
+    
+    
 
 def execute_ffmpeg_split(ffmpeg_dir, io_dict, args, ffprobe_dir):
     '''run ffmpeg across multiple cores'''

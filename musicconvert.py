@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # jmelancon
 # joseph@jmelancon.com
 # 2022
@@ -17,7 +19,7 @@ from colors import colortext
 
 
 def execute_ffmpeg(ffmpeg_dir, io_dict, args, ffprobe_dir):
-    '''run ffmpeg'''
+    '''run ffmpeg. this is deprecated, use multiexec's execute funciton.'''
     # special case for windows because it is annoying
     # they really like their backlashes and quotes around spaces
     # so the path has to be doctored before we run ffmpeg_dir
@@ -69,7 +71,7 @@ def parse_args(args_array):
     ]
     if len(args_array) == 1:
         # assume guided cli
-        print(colortext("no arguments passed, assuming guided cli...\n","purple",style="i"))
+        print(colortext("\nno arguments passed, assuming guided cli...\n","purple",style="i"))
         return "--gcli"
     elif len(args_array) > 2 and args_array[1] == "--cli":
         # implement soon (tm)
@@ -94,6 +96,8 @@ def main():
     output_mode = parse_args(sys.argv)
 
     if output_mode == "--gcli":
+        docs_url = "https://massmusicconvert.jmelancon.com/usage/"
+        print(colortext("before jumping in, be sure to read the docs at {}\n".format(docs_url),"purple",style="i"))
         ffmpeg_dir = syscheck.find_ffmpeg()
 
         file_array_pkg = guidedcli.prompt_file_inputs()  # needs to be unpacked
@@ -107,14 +111,21 @@ def main():
         format_ext = output_options_pkg[0]  # file extensions
         dir_struct_type = output_options_pkg[1]  # parallel or in-place
 
-        output_dict = guidedcli.transform_outputs(
+        output_info = guidedcli.transform_outputs(
             file_array, dir_struct_type, orig_path, format_ext)
+        
+        output_dict = output_info[0]
+        new_path = output_info[1]
+        
+        guidedcli.confirm_choices(orig_path, new_path, format_ext)
 
         multiexec.execute_ffmpeg_split(ffmpeg_dir, output_dict, args_array[0], args_array[1])
+
+        print(colortext("\n!!! MUSIC CONVERSION COMPLETE !!!\n", "purple", style="b"))
     elif output_mode == "--gui":
         gui.main()
     elif output_mode == "--cli":
-        print("not yet implemented, sorry :(")
+        print(colortext("not yet implemented, sorry :(", "red"))
         exit()
 
 

@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 
 import syscheck
+from colors import colortext
 
 
 def dir_sanitizer(directory):
@@ -110,7 +111,7 @@ def missing_dir_test(file_path):
     if not p.exists():
         # first, we tell the user it does not exist. this will be lost
         # in a sea of ffmpeg output, but i do not care.
-        print("'{}' does not exist! creating now...".format(test_dir))
+        print(colortext("'{}' does not exist! creating now...".format(test_dir), "blue", style="i"))
         # on *nix systems, mkdir -p will recursively create directories.
         # this is good if, for example, the user uses window media player.
         # windows media player will put the music in an album folder that
@@ -125,5 +126,5 @@ def missing_dir_test(file_path):
         elif syscheck.platform == "win32":
             os.system("mkdir {}".format(prep_dir_win(test_dir, True)))
         else:
-            print("fileops.py is borked!")
+            print(colortext("error, fileops.py broken :(", "white", "red"))
             exit()
