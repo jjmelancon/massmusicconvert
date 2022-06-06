@@ -2,6 +2,8 @@
 # joseph@jmelancon.com
 # 2022
 
+from colors import colortext
+
 def printArray(print_array):
     '''print long messages stored in arrays'''
     # For each line within the array do the following:
@@ -16,7 +18,7 @@ def integer_selection(lowest_selection, highest_selection):
         # try to do these code blocks. if there's an issue, go to except
         try:
             # prompt for a number.
-            selection = input("\n!! please select an option.\n\n>>> ")
+            selection = input(colortext("which one?\n>>> ", "yellow"))
             # if the number is outside of the given range, do this:
             if not lowest_selection <= int(selection) <= highest_selection:
                 # tell Python there's an issue with the value
@@ -25,5 +27,5 @@ def integer_selection(lowest_selection, highest_selection):
             return int(selection)
         # if there was a problem with values, give this error and repeat.
         except ValueError:
-            print("\n!! i'm sorry, but that doesn't seem to be an option.")
-            print("!! can i have a whole number within the above range?\n")
+            print(colortext("\nsorry, but that doesn't seem to be an option.", "red"))
+            print(colortext("please input a whole number within the above range.\n", "red"))
