@@ -9,7 +9,7 @@ massmusicconvert is a Python3 script that aims to convert a folder full of music
 
 ## usage  
 
-To get started, head over to the [Program Usage]({% post_url Program Usage %}) page.
+To get started, head over to the [Program Usage](/usage/) page.
 
 ## supported platforms:
 
