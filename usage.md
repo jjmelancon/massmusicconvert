@@ -4,14 +4,14 @@ title: Program Usage
 permalink: /usage/
 ---
 # Program Usage  
-As no GUI has been created for massmusicconvert yet, it's only usable from the command line. Thus, I'll explain how to use the program here. It'll be split into two sections, one for Mac and Linux systems, and one for Windows systems. First, however, I'd like to touch on the general process of how the program works. 
+As no GUI has been created for massmusicconvert yet, it's only usable from the command line. Thus, I'll explain how to use the program here. It'll be split into two sections, one for Mac and GNU/Linux systems, and one for Windows systems. First, however, I'd like to touch on the general process of how the program works. You don't necessarily need to read through the following section as the script should guide you pretty well, but I'd like to touch on some things that I thought were important to mention.
 
 ## Page Contents
 
-- [Explanation of Program Process](#program-flow)
-- [Getting Things Running](#getting-things-running)
-  - [Windows 10 and 11 Instructions](#windows-10-and-11)
-  - [Mac and Linux Instructions](#linux-and-mac)
+* [Explanation of Program Process](#program-flow)
+* [Getting Things Running](#getting-things-running)
+  * [Windows 10 and 11 Instructions](#windows-10-and-11)
+  * [Mac and GNU/Linux Instructions](#gnulinux-and-mac)
 
 ## Program Flow
 After you start the program, you'll need to get through a few questions before you can convert your music. The flow is as follows:  
@@ -36,7 +36,7 @@ After you start the program, you'll need to get through a few questions before y
 4. Music Output Options  
     1. Specify audio output format  
     2. Specify folder behavior  
-        - Parallel means that your music will be in two different folders. For example, you would have one folder that has all your original music files and all of the newly converted files would be dhomeumped into an entirely separate folder.  
+        - Parallel means that your music will be in two different folders. For example, you would have one folder that has all your original music files and all of the newly converted files would be dumped into an entirely separate folder.  
             - Upon choosing parallel, you'll need to type in a new folder to put your music in. Beware that the program will make this exact path as you type it, so check for typos before hitting enter.  
         - In-Place means that your music will be put in the same exact folder as before. It'll land right next to the original file with a new name.  
 
@@ -44,6 +44,8 @@ After you start the program, you'll need to get through a few questions before y
     - Sit back and let the computer work. If you plugged everything in correctly, it should start spitting out files into their places.  
 
 ## Getting Things Running
+
+Now that you know what this script will ask of you (if you read the [Program Flow](#program-flow) section as I had asked you to), let's talk about getting the script running. Below are instructions for both Windows and *nix based systems. Make sure to follow the instructions for your system as the three operating systems covered in this guide, Windows, MacOS, and GNU/Linux, all have specific needs to run this script.
 
 ### Windows 10 and 11
 
@@ -74,10 +76,10 @@ c:\Users\username\Music\My Input Files\
 c:/Users/username/Music/My\ Input\ Files/
 ```  
 
-### Linux and Mac  
+### GNU/Linux and Mac  
 
 #### Prerequesites  
-Before running the program, we need to make sure that all required dependencies are installed, those being FFmpeg and Python 3. Most Linux distros come with Python by default, and FFmpeg can be installed from your distro's package manager in most cases. Mac users will be asked to install Python when running the program, and FFmpeg can be downloaded from [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html). Make sure to grab it in an executable format! Put FFmpeg in a memorable spot, because you'll need to type in its location later.  
+Before running the program, we need to make sure that all required dependencies are installed, those being FFmpeg and Python 3. Most GNU/Linux distros come with Python by default, and FFmpeg can be installed from your distro's package manager in most cases. Mac users will be asked to install Python when running the program, and FFmpeg can be downloaded from [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html). Make sure to grab it in an executable format! Put FFmpeg in a memorable spot, because you'll need to type in its location later.  
 
 #### Running the program  
 To start, download the latest release from [https://github.com/jmelancon/massmusicconvert/releases](https://github.com/jmelancon/massmusicconvert/releases). You can use either the .zip or .tar.gz file. Once you have it downloaded, extract it into a folder of your choosing. It'd be a good idea to keep it separate from other files, so don't just drop the files into a folder that already is full of items. After that, you can run the file `musicconvert.py` either from your file manager or in the terminal.  
