@@ -19,5 +19,9 @@ colors:
 mobile:
     header_text_size: 6
 
+exclude:
+    README.md
+    LICENSE
+
 plugins:
   - jemoji
