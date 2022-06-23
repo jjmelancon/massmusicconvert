@@ -9,9 +9,9 @@ As no GUI has been created for massmusicconvert yet, it's only usable from the c
 ## Page Contents
 
 - [Explanation of Program Process](#program-flow)
-- [Program Usage](#program-usage)
-    - [Windows 10 and 11 Instructions](#windows-10-and-11)
-    - [Mac and Linux Instructions](#linux-and-mac)
+- [Getting Things Running](#getting-things-running)
+  - [Windows 10 and 11 Instructions](#windows-10-and-11)
+  - [Mac and Linux Instructions](#linux-and-mac)
 
 ## Program Flow
 After you start the program, you'll need to get through a few questions before you can convert your music. The flow is as follows:  
@@ -43,7 +43,7 @@ After you start the program, you'll need to get through a few questions before y
 5. Conversion  
     - Sit back and let the computer work. If you plugged everything in correctly, it should start spitting out files into their places.  
 
-## Program Usage
+## Getting Things Running
 
 ### Windows 10 and 11
 
