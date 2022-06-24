@@ -5,53 +5,24 @@ permalink: /
 ---
 # massmusicconvert
 
-massmusicconvert is a Python3 script that aims to convert a folder full of music to a different format of the user's choice. The script works by recursively scanning a directory in an effort to find music files, then passing the files one by one to FFmpeg for conversion. This project is AGPLv3, use it however you would like within the terms of the license.  
+massmusicconvert is a Python3 script that aims to convert a folder full of music to a different format of the user's choice. The script works by recursively scanning a directory in an effort to find music files, then passing the files one by one to FFmpeg for conversion. 
 
 ## usage  
 
 To get started, head over to the [Program Usage](/usage/) page.
 
-## supported platforms:
+## supported platforms
 
-**Linux**: Yes. Tested on Arch Linux and Fedora 35 with Python 3.10.1, both running kernel 5.16  
-**MacOS**: Maybe. I do not own a Mac and am too lazy to make a virtual machine at this time. All Linux commands should interface properly with their Unix counterparts, but don't count on any formal testing yet.  
-**Windows**: ***Kinda***. Windows uses a vastly different directory structure than a Unix or Linux type system, using C:\ as root as well as using backslashes instead of forward slashes like a sane operating system. Thus, separate functions must be made to convert python input to an output that Win32's CMD can understand. I've made functions to handle these specific issues, however no spaces can be in the FFmpeg directory path as a result of issues with getting Win32's CMD to interpret spaces in directories properly. No other issues have manifested at this time.
+massmusiconvert has been programmed explicitly for and tested on Windows and GNU/Linux. This project should also work on MacOS as well, though I don't have the means to test it. As I run GNU/Linux on my personal machine, most development will be focused on that specific operating system.
 
-## dependencies:
+## system requirements
 
-**Linux**: Python3, FFmpeg. Install FFmpeg to /bin/ffmpeg or manually specify the path to your FFmpeg directory.  
-**MacOS**: Python3, FFmpeg. You must manually specify where FFmpeg is located.  
-**Windows**: Python3, FFmpeg. Install FFmpeg to C:\ffmpeg\bin\ffmpeg.exe or manually specify the path to your FFmpeg directory.
-
-## running:
-
-If you want to run this code, good luck lol. Your best bet will be to use a release version on a Linux distro. I'm still working on the code, so consider everything in the main branch broken until this program reaches a full release, meaning I've accomplished everything in the todo section.
-
-## task list:
-
-### done:
-
-Scan for files  
-Select by file type  
-Check for FFmpeg on Linux, Mac, & Windows  
-Either convert alongside (easy), or parallel into a new directory (medium)  
-Actually pass commands to FFmpeg  
-Guided command line interface  
-Parallel directory headaches  
-Probably working as intended on Windows  
-Check FFmpeg directory on Win32 for spaces  
-
-### need to do:
-
-Verify MacOS compatibility  
-Figure out bitrate selection issues  
-Build proper GUI (Tkinter?)  
-Implement more features  
-Standalone Windows executable  
-Documentation  
-
-### ongoing goals:
-
-Keep code clean and commented  
-Simplify convoluted code  
-Adhere to PEP8 as best as possible  
+As a helper program, this script only tells other programs what to do. As such, you'll need to download a few things first. The required programs are below:
+ * FFmpeg & FFprobe - Handle conversion of music files
+   * Windows 10 & 11: Download an executable version from [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html) and place the files contained in the archive in `C:\ffmpeg\`. If you can't place the files there, that's alright! You'll just have to tell the program where FFmpeg is later.
+   * MacOS: Download an executable version from [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html) and place the files contained in the archive anywhere. You'll need to tell the program where these files are located later.
+   * GNU/Linux: Install FFmpeg from your distro's package manager. If your distro doesn't have a package manager, I trust that you can figure out how to get FFmpeg working on your own. If FFmpeg isn't in `/bin/`, you'll need to tell the program where it is later.
+ * Python3 - Run the program
+   * Windows 10 & 11: Install Python from the Microsoft Store.
+   * MacOS: Double click `musicconvert.py` in Finder. If Python isn't installed, you'll be prompted to install it.
+   * GNU/Linux: Install Python3 from your distro's package manager if it isn't installed already. If your distro doesn't have a package manager, I again trust that you can figure out how to get Python3 working on your own.
