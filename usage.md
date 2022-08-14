@@ -13,7 +13,7 @@ As no GUI has been created for massmusicconvert yet, it's only usable from the c
 
 ## Getting Things Running
 
-Now that you know what this script will ask of you (if you read the [Program Flow](#program-flow) section as I had asked you to), let's talk about getting the script running. Below are instructions for both Windows and *nix based systems. Make sure to follow the instructions for your system as the three operating systems covered in this guide, Windows, MacOS, and GNU/Linux, all have specific needs to run this script.
+Let's talk about getting the script running. Below are instructions for both Windows and *nix based systems (GNU/Linux and MacOS). Make sure to follow the instructions for your system as the three operating systems covered in this guide, Windows, MacOS, and GNU/Linux, all have specific needs to run this script.
 
 ### Windows 10 and 11
 
