@@ -2,6 +2,7 @@
 layout: page
 title: Program Usage
 permalink: /usage/
+importance: 2
 ---
 # Program Usage  
 As no GUI has been created for massmusicconvert yet, it's only usable from the command line. Thus, I'll explain how to use the program here. It'll be split into two sections, one for Mac and GNU/Linux systems, and one for Windows systems. If you'd like a more in-depth explanation of how things work, see [explanation.md](/explanation/) for a closer look into the program. You don't need to read through the following section as the script should guide you pretty well.  
