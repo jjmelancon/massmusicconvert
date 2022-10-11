@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Home
+desc: massmusicconvert is a script to manage converting your whole music library with ease via ffmpeg.
 permalink: /
 importance: -1
 ---

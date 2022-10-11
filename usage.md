@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Program Usage
+desc: Instructions on how to use massmusicconvert through your computer's terminal.
 permalink: /usage/
 importance: 2
 ---

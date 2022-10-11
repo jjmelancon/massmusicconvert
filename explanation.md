@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Program Explanation
+desc: An in-depth explanation as to my thoughts creating the massmusicconvert script and expanded reasoning and explanation as to why things are programmed the way they are.
 permalink: /explanation/
 importance: 3
 ---
