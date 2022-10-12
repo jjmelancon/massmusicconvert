@@ -2,10 +2,12 @@ remote_theme: jmelancon/monotheme
 
 title: "massmusicconvert: mass music conversion for the masses"
 project_name: "massmusicconvert"
+lang: "en" # the language of the website in html format
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://massmusicconvert.jmelancon.com" # the base hostname & protocol for your site, e.g. http://example.com
 footer_text: "jmelancon/massmusicconvert" # text that goes in the lower left of the screen on the footer. for example, your project's repo name.
 icon_location: "/assets/project_pic.png" # where your project image is. don't leave blank!
+icon_alt_text: "massmusicconvert logo" # alt text for your project's image. you can leave this blank, but you really shouldn't.
 
 # Theming
 colors:
