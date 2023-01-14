@@ -19,7 +19,11 @@ def runcommand(command):
         ffmpeg_process.communicate()
     # sane, non-nt oses
     else:
-        subprocess.run(command, shell=True)
+        with open("log.txt", 'a') as fp:
+            proc = subprocess.Popen(command + ["-hide_banner", "-loglevel", "warning"], stdout=fp, stderr=fp)
+            proc.wait()
+        # todo: not this
+        print(f"Finished a thread for {command[2]}")
     
     
 
@@ -61,8 +65,9 @@ def execute_ffmpeg_split(ffmpeg_dir, io_dict, args, ffprobe_dir):
             os.remove(output_dir)
         # note that the arguments string has a space at the end by default
         if syscheck.platform == "linux" or syscheck.platform == "unix":
-            command = str('"{}" -i "{}" {}"{}"'.format(
-                ffmpeg_dir, input_dir, tmp_args, io_dict[input_dir]))
+            #command = str('"{}" -i "{}" {}"{}"'.format(
+            #    ffmpeg_dir, input_dir, tmp_args, io_dict[input_dir]))
+            command = [ffmpeg_dir, "-i", input_dir] + tmp_args.split(" ")[:-1] + [io_dict[input_dir]]
         else:
             command = str('{} -i "{}" {}"{}"'.format(
                 ffmpeg_dir, fileops.prep_dir_win(input_dir, False), tmp_args,
