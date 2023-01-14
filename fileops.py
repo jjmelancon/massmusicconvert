@@ -1,6 +1,6 @@
 # jmelancon
 # joseph@jmelancon.com
-# 2022
+# 2023
 
 '''handle most file-based operations for this program'''
 
@@ -10,6 +10,8 @@ from pathlib import Path
 import syscheck
 from colors import colortext
 
+import hashlib
+
 
 def dir_sanitizer(directory):
     '''try to fix any input errors so we can use a user-provided directory'''
@@ -18,7 +20,7 @@ def dir_sanitizer(directory):
     if directory[-1] == " ":
         directory = directory[:-1]
 
-    # what if the directory is in apostraphes? (again, kde behavior with d&d)
+    # what if the directory is in apostrophes? (again, kde behavior with d&d)
     if directory[0] == "'" and directory[-1] == "'":
         directory = directory[1:-1]
 
@@ -128,3 +130,12 @@ def missing_dir_test(file_path):
         else:
             print(colortext("error, fileops.py broken :(", "white", "red"))
             exit()
+
+
+def get_hash(filepath):
+    if os.path.exists(filepath):
+        with open(filepath, "rb") as f:
+            outfile_bytes = f.read()
+            return hashlib.md5(outfile_bytes).hexdigest()
+    else:
+        return -1

@@ -1,7 +1,7 @@
 ## joseph melancon
 ## joseph@jmelancon.com
 ## from jmelancon/python3modules
-## 2022
+## 2023
 
 def colortext(text, textColor, backgroundColor = "", style = "n", highIntensityText = False, highIntensityBG = False):
     colorDict = {

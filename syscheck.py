@@ -1,6 +1,6 @@
 # jmelancon
 # joseph@jmelancon.com
-# 2022
+# 2023
 
 '''verify ffmpeg location and platform compatibility'''
 

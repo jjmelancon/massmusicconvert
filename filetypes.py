@@ -1,6 +1,6 @@
 # jmelancon
 # joseph@jmelancon.com
-# 2022
+# 2023
 
 '''dictionary for each file format and their respective extensions'''
 

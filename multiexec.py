@@ -1,6 +1,6 @@
 # jmelancon
 # joseph@jmelancon.com
-# 2022
+# 2023
 
 '''execute multiple instances of ffmpeg at a time'''
 
@@ -56,6 +56,9 @@ def execute_ffmpeg_split(ffmpeg_dir, io_dict, args, ffprobe_dir):
             bitrate_usable = int(bitrate) // 1000
             tmp_args += str("-ab " + str(bitrate_usable) + "k ")
         # {ffmpeg} -i "{input}" {arguments}"{output}"
+        if os.path.exists(output_dir):
+            # todo: implement better way of handling already existing files
+            os.remove(output_dir)
         # note that the arguments string has a space at the end by default
         if syscheck.platform == "linux" or syscheck.platform == "unix":
             command = str('"{}" -i "{}" {}"{}"'.format(
