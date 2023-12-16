@@ -21,7 +21,7 @@ Currently, one big change. The preview branch now implements SQLite in order to 
 conversion history. With this, one can transcode an ever-expanding library without having to re-transcode
 every time. It'll save your choices for format, bitrate, and file structure. 
 
-# The Bugs
+## The Bugs
 
 On the branch at this time, there's a few bugs I can remeber off the top of my head.
 
